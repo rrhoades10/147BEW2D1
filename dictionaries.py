@@ -303,6 +303,215 @@ print(addresses)
 hopefully_friend = addresses.setdefault("Spencer", "172 Green Square")
 # print(addresses)
 
+# Shallow Copy vs Deep Copy
+original_artists = {"Picasso": 1881, "Van Gogh": 1853, "Monet": 1840}
+copied_artists = original_artists.copy()
+
+copied_artists["Van Gogh"] = 1900
+print("Original", original_artists) #original remains unchanged
+print("Copied", copied_artists) #copy reflect that change
+
+# creating a deep copy - create a totally new independent dictionary
+import copy
+original_paintings = {"The Starry Night": "Van Gogh", "The Scream": "Munch"}
+reproduced_paintings = copy.deepcopy(original_paintings)
+reproduced_paintings["The Starry Night"] = "Da Vinci"
+print("Original", original_paintings) #Original remains unchanged
+print("Copied", reproduced_paintings) # copy reflects the changes
+
+# how does a change affect a shallow copy
+# specifically with values that are mutable - such as a lost
+museum_exhibit = {
+    "Ancient Vase": ["Greece", "Egypt"],
+    "Renaissance Painting": ["Italy", "France"]
+}
+
+# creating shallow copy
+exhibit_copy = museum_exhibit.copy()
+# adding a country to the ancient vase exhibit
+# this will also alter the original dictionary
+exhibit_copy['Ancient Vase'].append("China")
+print("Original Exhibit", museum_exhibit)
+print("Copied Exhibit", exhibit_copy)
+
+# NESTED DICTIONARIES and LISTS
+# Dictionaries with values that are other dictionaries
+# Dictionaries with values that are lists
+
+# Lists as values in dictionaries
+library = {
+    "Fantasy": ["The Hobbit", "The Lord of the Rings"],
+    "Science Fiction": ["Dune", "Neuromancer", "The Name of the Wind"],
+    "Mystery": ["Sherlock Holmes", "And Then There Were None"]
+}
+
+print(library["Fantasy"]) # accesses the list associated with the "Fantasy" key
+# accessing The Lord of the Rings
+print(library["Fantasy"][1])
+# appending to a list in a dictionary
+library["Science Fiction"].append("The Road")
+print(library) # print whole dictionary
+print(library["Science Fiction"]) #specifically accessing the value of the Science Fiction Key
+library["Fantasy"].remove("The Hobbit")
+print(library["Fantasy"])
+
+# looping through lists in dictionaries
+for book in library["Science Fiction"]:
+    print(book)
+
+
+# looping through our dictionary and then through the list values
+# using dict.items()
+print(library.items())
+for genre, books in library.items():
+    print(f"Genre: {genre}, Books: {books}")
+    # for book in books:
+    #     print(f" - {book}")
+    # ^^^ this makes it pretty \(￣︶￣*\))
+
+# dictionaries in lists
+art_gallery = [
+    {"Title": "Starry Night", "Artist": "Van Gogh", "Year": 1889},
+    {"Title": "The Scream", "Artist": "Munch", "Year": 1893},
+    {"Title": "Guernica", "Artist": "Picasso", "Year": 1937}
+]
+
+# adding to our list of dictionaries
+art_gallery.append({"Title": "The Persistence of Memory", "Artist": "Dali", "Year": 1931})
+# looping through a list of dictionaries
+#   artwork represents each dictionary in my list
+for artwork in art_gallery:
+    print(f"Title: {artwork['Title']}, Artist: {artwork['Artist']}, Year: {artwork['Year']}")
+
+# Nested dicionaries
+# a dictionary where a key has a value that is another dictionary
+museum_exhibit = {
+    "Ancient Egypt": {
+        "Artifacts": ["Sphinx", "Pyramids"],
+        "Famous Pharaohs": ["King Tut", "Cleopatra"]
+    },
+    "Renaissance Art": {
+        "Notable Artists": ["Da Vinci", "Michelangelo", "Donatello", "Rafael"],
+        "Key Works": ["Mona Lisa", "The Last Supper", "That Cool Sculpture", "David", "Sistine Chapel"]
+    }
+}
+
+# adding new key, value pairs to a nested dictionary
+# accessing the Ancient Egypt Key and then adding another key to that dictionary called "Revent Discoveries"
+# dictionary    Ancient Egypt Key   adds a new key called Recent Discovers 
+museum_exhibit["Ancient Egypt"]["Recent Discoveries"] = ["New Tomb", "Ancient Scrolls"] # the value to the key of Recent Discoveries
+print(museum_exhibit)
+# accessing the newly added key,value pair 
+print(museum_exhibit["Ancient Egypt"]["Recent Discoveries"])
+# check point variables
+renaissance_art = museum_exhibit["Renaissance Art"]
+print(renaissance_art)
+renaissance_art["Cool Weapons"] = ["Dope Sword", "Neat Pike", "Nice Axe"]
+
+print(renaissance_art)
+
+# looping through nested dictionaries
+for exhibit, details in museum_exhibit.items():
+    print(f"Exhibit: {exhibit}")
+    for section, items in details.items():
+        print(f"  {section}:")
+        for item in items:
+            print(f" - {item}")
+
+for exhibit in museum_exhibit:
+    print(f"Exhibit: {exhibit}")
+    for section in museum_exhibit[exhibit]:
+        print(f" {section}")
+        for item in museum_exhibit[exhibit][section]:
+            print(f" - {item}")
+
+
+    
+museum_exhibit = {
+    # exhibit
+    "Ancient Egypt": { #details
+        # section        items
+        "Artifacts": ["Sphinx", "Pyramids"],
+                        # item     item
+        # section        items
+        "Famous Pharaohs": ["King Tut", "Cleopatra"]
+        #                      item           item
+    },
+    # exhibit
+    "Renaissance Art": { #details
+        # section                    items
+        "Notable Artists": ["Da Vinci", "Michelangelo", "Donatello", "Rafael"],
+        #                      item            item         item         item
+        # section                    items
+        "Key Works": ["Mona Lisa", "The Last Supper", "That Cool Sculpture", "David", "Sistine Chapel"]
+                        # item         item                  item                item       item
+    }
+}
+
+#   iterator variable names                    keyword
+for exhibit, details in museum_exhibit.items():
+    print(f"Exhibit: {exhibit}")
+    # iterator variable names           keyword
+    for section, items in details.items():
+        print(f"  {section}:")
+    # iterator variable   variable
+        for item in items:
+            print(f" - {item}")
+
+names = ["King Tut", "Cleopatra"]
+for name in names:
+    print(name)
+
+# Creating a nested dictionary from an empty dictionary
+book_shelf = {}
+# adding a key to my book_shelf with a value that is an empty dictionary
+book_shelf["Star Wars"] = {}
+print(book_shelf)
+# print(book_shelf["Star Wars"])
+book_shelf["Pokemon"] = {} # book_shelf["Pokemon"] = {"Cards": ["Charizard", "Pichu", "Heracross"], "Bobble Head": "Charmander", "Toy": "Dragonite"}
+book_shelf["Yugioh"] = {}
+print(book_shelf)
+# adding key value pairs to our nested dictionaries
+# Star Wars
+star_wars = book_shelf["Star Wars"]
+print(star_wars)
+# check point variable to get into the Star Wars Key - which is currently 
+# an empty dictionary
+star_wars["Legos"] = "Boba Fett Helmet"
+print(book_shelf)
+# book_shelf["Star Wars"]["Legos"] = "Boba Fett Helmet"
+book_shelf["Pokemon"] = {"Cards": ["Charizard", "Pichu", "Heracross"], "Bobble Head": "Charmander", "Toy": "Dragonite"}
+print(book_shelf)
+print(book_shelf["Star Wars"]["Legos"])
+print(book_shelf["Pokemon"]["Cards"][2])
+
+# collection = input("What card collection do you have? ")
+# card = input("What card would you like to add from the collection")
+# book_shelf["Yugioh"] = {collection: card}
+
+print(book_shelf)
+print(book_shelf["Yugioh"])
+# book_shelf["Pokemon"]["Book"] KeyError we need to add a value when adding a key
+
+
+# create a function with a while loop that will add different shelf categories to your book shelf
+# each category should have at least one value
+# have at least one nested dictionary with at least 3 key value pairs
+# if youre feelin saucy, make one of your nested dictionary values a list
+# take some time to plan the structure of your dictionary
+# have a nice time
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
